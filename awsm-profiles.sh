@@ -1,7 +1,7 @@
 #! /bin/bash 
 : ${AWS_CONFIG=$HOME/.aws/config}
 : ${AWSM_HOME=$HOME/.awsm}
-: ${AWSM_PROFILE=$AWSM_HOME/.awsm-profile}
+: ${AWSM_PROFILE_FILE=$AWSM_HOME/.awsm-profile}
 
 function list-profiles {
   local regex="^\[profile ([a-z]+)\]"
@@ -23,7 +23,7 @@ function list-profiles {
 
 function list-current-profile {
   local regex="^export AWS_PROFILE=([a-z]+)"
-  cat "$AWSM_PROFILE" | \
+  cat "$AWSM_PROFILE_FILE" | \
   while read LINE; do
     if [[ $LINE =~ $regex ]]; then
       name="${BASH_REMATCH[1]}"
@@ -46,8 +46,10 @@ function select-profile {
 function profile {
   local profile=$(select-profile)
   if [ -n "$profile" ]; then
-    echo "export AWS_PROFILE=$profile" > $AWSM_PROFILE
+    echo "export AWS_PROFILE=$profile" > $AWSM_PROFILE_FILE
   fi
 }
 
-source $AWSM_PROFILE
+if [ ! -n "$AWS_PROFILE" ]; then
+  source $AWSM_PROFILE_FILE
+fi
