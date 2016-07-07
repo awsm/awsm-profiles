@@ -1,4 +1,5 @@
 #! /bin/bash 
+
 : ${AWS_CONFIG=$HOME/.aws/config}
 : ${AWSM_HOME=$HOME/.awsm}
 : ${AWSM_PROFILE_FILE=$AWSM_HOME/.awsm-profile}
@@ -50,6 +51,12 @@ function profile {
   fi
 }
 
-if [ ! -n "$AWS_PROFILE" ]; then
-  source $AWSM_PROFILE_FILE
-fi
+function load_profile {
+  if [ ! -n "$AWS_PROFILE" ]; then
+    source $AWSM_PROFILE_FILE
+  fi
+}
+
+set +u
+load_profile
+set -u
