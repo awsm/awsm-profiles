@@ -53,7 +53,9 @@ function profile {
 
 function load_profile {
   if [ ! -n "$AWS_PROFILE" ]; then
-    source $AWSM_PROFILE_FILE
+    if [ -f "$AWS_PROFILE_FILE" ]; then
+      source $AWSM_PROFILE_FILE
+    fi
   fi
 }
 
