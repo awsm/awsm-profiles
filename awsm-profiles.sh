@@ -52,13 +52,11 @@ function profile {
 }
 
 function load_profile {
-  if [ ! -n "$AWS_PROFILE" ]; then
-    if [ -f "$AWS_PROFILE_FILE" ]; then
+  if [ -z "${AWS_PROFILE-}" ]; then
+    if [ -f "$AWSM_PROFILE_FILE" ]; then
       source $AWSM_PROFILE_FILE
     fi
   fi
 }
 
-set +u
 load_profile
-set -u
