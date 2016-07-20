@@ -1,11 +1,11 @@
-#! /bin/bash 
+#! /bin/bash
 
 : ${AWS_CONFIG=$HOME/.aws/config}
 : ${AWSM_HOME=$HOME/.awsm}
 : ${AWSM_PROFILE_FILE=$AWSM_HOME/.awsm-profile}
 
 function list-profiles {
-  local regex="^\[profile ([a-z]+)\]"
+  local regex="^\[profile ([A-z_-]+)\]"
   cat "$AWS_CONFIG" | \
   while read LINE; do
     if [[ $LINE =~ $regex ]]
@@ -23,7 +23,7 @@ function list-profiles {
 }
 
 function list-current-profile {
-  local regex="^export AWS_PROFILE=([a-z]+)"
+  local regex="^export AWS_PROFILE=([A-z_-]+)"
   cat "$AWSM_PROFILE_FILE" | \
   while read LINE; do
     if [[ $LINE =~ $regex ]]; then
